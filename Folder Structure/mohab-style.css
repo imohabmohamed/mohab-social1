@@ -1,6 +1,6 @@
 /* ==========================================================================
    MOHAB AGENCY — 3D PERSPECTIVE & CYBERPUNK ARCHITECTURE
-   mohab-style.css — Interactive FX Buttons & Smooth Pulse Edition
+   mohab-style.css — Live Glow Edition
    ========================================================================== */
 
 :root {
@@ -255,14 +255,6 @@ html, body {
 .live-framed.is-live-card { border: 1px solid var(--stream-frame) !important; box-shadow: 0 0 35px rgba(16, 185, 129, 0.25); }
 .player-screen { width: 100%; height: 320px; background: #000; position: relative; }
 
-.live-indicator-pill {
-    background: rgba(83, 252, 24, 0.12); border: 1px solid #53FC18; color: #53FC18;
-    padding: 6px 14px; border-radius: 20px; font-size: 0.7rem; font-weight: 800;
-    display: flex; align-items: center; gap: 6px; box-shadow: 0 0 15px rgba(83,252,24,0.3);
-}
-.pulse-dot { width: 6px; height: 6px; background: #53FC18; border-radius: 50%; animation: pulse 1.5s infinite; }
-@keyframes pulse { 0%,100%{opacity:0.3;} 50%{opacity:1;} }
-
 .settings-trigger-btn {
     background: var(--surface); border: 1px solid var(--border-line); color: var(--text-main);
     width: 38px; height: 38px; border-radius: 8px; cursor: pointer; display: flex;
@@ -393,7 +385,19 @@ html, body {
 .bento-link-card h3 { font-size: 1.3rem; font-weight: 900; letter-spacing: 0.05em; transition: color 0.3s; }
 .card-arrow { font-size: 1.4rem; color: var(--accent); position: relative; z-index: 2; transition: transform 0.3s, color 0.3s; }
 
-/* توهج ألوان الهوية لكل منصة عند المرور */
+/* توهج وبطاقة كيك عند البث المباشر (Live Platform Glow) */
+.bento-link-card.brand-kick.is-live-platform {
+    border-color: #10B981 !important;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.5), 0 0 35px rgba(16, 185, 129, 0.45);
+}
+.bento-link-card.brand-kick.is-live-platform .platform-icon,
+.bento-link-card.brand-kick.is-live-platform h3,
+.bento-link-card.brand-kick.is-live-platform .card-arrow {
+    color: #10B981;
+    text-shadow: 0 0 12px rgba(16, 185, 129, 0.6);
+}
+
+/* توهج ألوان الهوية لبقية المنصات عند المرور */
 .bento-link-card.brand-kick:hover { border-color: #53FC18; box-shadow: 0 20px 40px rgba(0,0,0,0.5), 0 0 30px rgba(83,252,24,0.4); }
 .bento-link-card.brand-kick:hover .platform-icon,
 .bento-link-card.brand-kick:hover h3,
@@ -566,7 +570,7 @@ html, body {
 .copy-btn:hover { filter: brightness(1.15); transform: translateY(-2px); }
 
 /* ==========================================================================
-   CUSTOMIZER DRAWER (تصميم نظيف ومريح وواضح لأزرار FX Density و Hover SFX مع تأثير نبض بالضغط)
+   CUSTOMIZER DRAWER
    ========================================================================== */
 .customizer-drawer {
     position: fixed; top: 90px; right: -420px; width: 350px;
@@ -639,7 +643,6 @@ html, body {
     background: rgba(255, 255, 255, 0.05);
 }
 
-/* تأثير النبض البصري الخفيف عند الضغط (Pulse Click Animation) */
 @keyframes pulse-click {
     0% { transform: scale(1); }
     50% { transform: scale(0.95); filter: brightness(1.3); }

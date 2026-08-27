@@ -1,6 +1,6 @@
 /* ==========================================================================
-   MOHAB AGENCY — JAVASCRIPT LOGIC & KICK LIVE API INTEGRATION
-   script.js — Realtime Live Detection Edition
+   MOHAB AGENCY — JAVASCRIPT LOGIC & KICK LIVE API SYNCHRONIZATION
+   script.js — Full Sync for Popup and Main Stream Players
    ========================================================================== */
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -107,34 +107,42 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     // -------------------------------------------------------------------------
-    // جلب حالة البث المباشر حقيقياً من منصة كيك (Kick API Integration)
+    // تحديث حالة البث المباشر (الشاشة الصغيرة فوق والكارت الكبير تحت)
     // -------------------------------------------------------------------------
     async function checkKickLiveStatus() {
         try {
-            // رابط قناة كيك العامة لجلب البيانات بصيغة JSON
             const response = await fetch('https://kick.com/api/v1/channels/imohab');
             const data = await response.json();
-            
-            // التحقق هل البث شغال حالياً
             const isLiveNow = data && data.livestream !== null;
 
             const navStatusLabel = document.getElementById("brand-status-label");
             const navDot = document.getElementById("nav-dot");
             const liveStatusBox = document.getElementById("live-status-box");
-            const topLivePill = document.getElementById("top-live-pill");
+            
+            // شاشة المعاينة الصغيرة فوق (Popup)
+            const popupScreenBox = document.getElementById("popup-screen-box");
+
+            // كارت البث الكبير في الهيرو
             const heroLiveCard = document.getElementById("hero-live-card");
             const cardDotStatus = document.getElementById("card-dot-status");
             const liveCardStatus = document.getElementById("live-card-status");
             const heroScreenBox = document.getElementById("hero-screen-box");
+
+            // بطاقة كيك في قسم المنصات
             const kickCard = document.querySelector(".brand-kick");
 
             if (isLiveNow) {
-                // وضع الأونلاين والبث المباشر
+                // حالة الأونلاين (LIVE)
                 if (navStatusLabel) { navStatusLabel.textContent = "ONLINE"; navStatusLabel.classList.add("online"); }
                 if (navDot) navDot.classList.add("is-live");
                 if (liveStatusBox) liveStatusBox.classList.add("is-live-popup");
-                if (topLivePill) topLivePill.style.display = "flex";
 
+                // تحديث الشاشة الصغيرة (Popup) لتشمل البث
+                if (popupScreenBox) {
+                    popupScreenBox.innerHTML = `<iframe src="https://player.kick.com/imohab" height="100%" width="100%" frameborder="0" scrolling="no" allowfullscreen="true"></iframe>`;
+                }
+
+                // تحديث الكارت الكبير
                 if (heroLiveCard) heroLiveCard.classList.add("is-live-card");
                 if (cardDotStatus) cardDotStatus.classList.add("is-live");
                 if (liveCardStatus) liveCardStatus.textContent = "LIVE ON KICK";
@@ -142,24 +150,27 @@ document.addEventListener("DOMContentLoaded", () => {
                     heroScreenBox.innerHTML = `<iframe src="https://player.kick.com/imohab" height="100%" width="100%" frameborder="0" scrolling="no" allowfullscreen="true"></iframe>`;
                 }
 
+                // تحديث بطاقة كيك تحت
                 if (kickCard) {
                     kickCard.classList.add("is-live-platform");
                     const actionTypeSpan = kickCard.querySelector(".action-type");
                     if (actionTypeSpan) actionTypeSpan.textContent = "LIVE ON KICK";
                 }
             } else {
-                // وضع الأوفلاين (الافتراضي)
+                // حالة الأوفلاين (OFFLINE)
                 if (navStatusLabel) { navStatusLabel.textContent = "OFFLINE"; navStatusLabel.classList.remove("online"); }
                 if (navDot) navDot.classList.remove("is-live");
                 if (liveStatusBox) liveStatusBox.classList.remove("is-live-popup");
-                if (topLivePill) topLivePill.style.display = "none";
+                
+                if (popupScreenBox) {
+                    popupScreenBox.innerHTML = `<div class="offline-box-content" style="height: 100%; display: flex; align-items: center; justify-content: center; flex-direction: column; font-family: monospace; font-size: 0.7rem; color: #777;"><span>OFFLINE</span></div>`;
+                }
             }
         } catch (error) {
-            console.log("Kick API check skipped or blocked by CORS, using fallback.");
+            console.log("Kick API check skipped or blocked, fallback active.");
         }
     }
 
-    // فحص حالة البث فور فتح الموقع، وكل دقيقتين تلقائياً
     checkKickLiveStatus();
     setInterval(checkKickLiveStatus, 120000);
 
