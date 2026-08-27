@@ -1,12 +1,12 @@
 /* ==========================================================================
-   MOHAB AGENCY — JAVASCRIPT LOGIC & LIVE STATUS AUTOMATION
-   script.js — Live Detection, FX Density, Clean Sound & Interactive UI
+   MOHAB AGENCY — JAVASCRIPT LOGIC & KICK LIVE API INTEGRATION
+   script.js — Realtime Live Detection Edition
    ========================================================================== */
 
 document.addEventListener("DOMContentLoaded", () => {
     // Canvas Cyberpunk Background Animation with Dynamic FX Density
     const canvas = document.getElementById("nexus-canvas");
-    let currentParticleCount = 45; // Default Normal density
+    let currentParticleCount = 45;
     let particles = [];
 
     if (canvas) {
@@ -56,7 +56,6 @@ document.addEventListener("DOMContentLoaded", () => {
         initParticles();
         animateCanvas();
 
-        // ربط أزرار الـ FX Density بتغيير عدد الجسيمات فوراً
         const fxBtns = document.querySelectorAll("[data-fx]");
         fxBtns.forEach(btn => {
             btn.addEventListener("click", () => {
@@ -65,13 +64,10 @@ document.addEventListener("DOMContentLoaded", () => {
                 setTimeout(() => btn.classList.remove("pulse-click"), 300);
 
                 const fxLevel = btn.getAttribute("data-fx");
-                if (fxLevel === "low") {
-                    currentParticleCount = 18;
-                } else if (fxLevel === "normal") {
-                    currentParticleCount = 45;
-                } else if (fxLevel === "high") {
-                    currentParticleCount = 90;
-                }
+                if (fxLevel === "low") currentParticleCount = 18;
+                else if (fxLevel === "normal") currentParticleCount = 45;
+                else if (fxLevel === "high") currentParticleCount = 90;
+                
                 initParticles();
                 playSubtleClick();
             });
@@ -111,48 +107,61 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     // -------------------------------------------------------------------------
-    // نظام محاكاة حالة البث (Live Status Automation)
-    // يمكنك تعديل المتغير isLive إلى true فوراً حين تبدأ البث، أو ربطه لاحقاً بـ Kick API
+    // جلب حالة البث المباشر حقيقياً من منصة كيك (Kick API Integration)
     // -------------------------------------------------------------------------
-    const isLive = false; // اجعلها true لتجربة شكل الموقع أثناء البث المباشر
+    async function checkKickLiveStatus() {
+        try {
+            // رابط قناة كيك العامة لجلب البيانات بصيغة JSON
+            const response = await fetch('https://kick.com/api/v1/channels/imohab');
+            const data = await response.json();
+            
+            // التحقق هل البث شغال حالياً
+            const isLiveNow = data && data.livestream !== null;
 
-    if (isLive) {
-        // 1. تحديث شارة الـ Navbar (أوفلاين تتحول لأونلاين ولمبة خضراء منورة)
-        const navStatusLabel = document.getElementById("brand-status-label");
-        const navDot = document.getElementById("nav-dot");
-        const liveStatusBox = document.getElementById("live-status-box");
-        const topLivePill = document.getElementById("top-live-pill");
+            const navStatusLabel = document.getElementById("brand-status-label");
+            const navDot = document.getElementById("nav-dot");
+            const liveStatusBox = document.getElementById("live-status-box");
+            const topLivePill = document.getElementById("top-live-pill");
+            const heroLiveCard = document.getElementById("hero-live-card");
+            const cardDotStatus = document.getElementById("card-dot-status");
+            const liveCardStatus = document.getElementById("live-card-status");
+            const heroScreenBox = document.getElementById("hero-screen-box");
+            const kickCard = document.querySelector(".brand-kick");
 
-        if (navStatusLabel) {
-            navStatusLabel.textContent = "ONLINE";
-            navStatusLabel.classList.add("online");
-        }
-        if (navDot) navDot.classList.add("is-live");
-        if (liveStatusBox) liveStatusBox.classList.add("is-live-popup");
-        if (topLivePill) topLivePill.style.display = "flex";
+            if (isLiveNow) {
+                // وضع الأونلاين والبث المباشر
+                if (navStatusLabel) { navStatusLabel.textContent = "ONLINE"; navStatusLabel.classList.add("online"); }
+                if (navDot) navDot.classList.add("is-live");
+                if (liveStatusBox) liveStatusBox.classList.add("is-live-popup");
+                if (topLivePill) topLivePill.style.display = "flex";
 
-        // 2. تحديث كارت البث الكبير في الهيرو (Hero Live Card)
-        const heroLiveCard = document.getElementById("hero-live-card");
-        const cardDotStatus = document.getElementById("card-dot-status");
-        const liveCardStatus = document.getElementById("live-card-status");
-        const heroScreenBox = document.getElementById("hero-screen-box");
+                if (heroLiveCard) heroLiveCard.classList.add("is-live-card");
+                if (cardDotStatus) cardDotStatus.classList.add("is-live");
+                if (liveCardStatus) liveCardStatus.textContent = "LIVE ON KICK";
+                if (heroScreenBox) {
+                    heroScreenBox.innerHTML = `<iframe src="https://player.kick.com/imohab" height="100%" width="100%" frameborder="0" scrolling="no" allowfullscreen="true"></iframe>`;
+                }
 
-        if (heroLiveCard) heroLiveCard.classList.add("is-live-card");
-        if (cardDotStatus) cardDotStatus.classList.add("is-live");
-        if (liveCardStatus) liveCardStatus.textContent = "LIVE ON KICK";
-        if (heroScreenBox) {
-            // هنا يمكنك وضع كود تضمين بث كيك الحقيقي (Embed Player) أو صورة المعاينة الحية
-            heroScreenBox.innerHTML = `<iframe src="https://player.kick.com/imohab" height="100%" width="100%" frameborder="0" scrolling="no" allowfullscreen="true"></iframe>`;
-        }
-
-        // 3. تحديث كارت كيك في قسم المنصات (Channels) لتحويله لوضع اللايف بحدود منورة
-        const kickCard = document.querySelector(".brand-kick");
-        if (kickCard) {
-            kickCard.classList.add("is-live-platform");
-            const actionTypeSpan = kickCard.querySelector(".action-type");
-            if (actionTypeSpan) actionTypeSpan.textContent = "LIVE ON KICK";
+                if (kickCard) {
+                    kickCard.classList.add("is-live-platform");
+                    const actionTypeSpan = kickCard.querySelector(".action-type");
+                    if (actionTypeSpan) actionTypeSpan.textContent = "LIVE ON KICK";
+                }
+            } else {
+                // وضع الأوفلاين (الافتراضي)
+                if (navStatusLabel) { navStatusLabel.textContent = "OFFLINE"; navStatusLabel.classList.remove("online"); }
+                if (navDot) navDot.classList.remove("is-live");
+                if (liveStatusBox) liveStatusBox.classList.remove("is-live-popup");
+                if (topLivePill) topLivePill.style.display = "none";
+            }
+        } catch (error) {
+            console.log("Kick API check skipped or blocked by CORS, using fallback.");
         }
     }
+
+    // فحص حالة البث فور فتح الموقع، وكل دقيقتين تلقائياً
+    checkKickLiveStatus();
+    setInterval(checkKickLiveStatus, 120000);
 
     // Mouse Spotlight & Card Glow Tracking
     const spotlight = document.getElementById("mouse-spotlight");
