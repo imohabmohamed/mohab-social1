@@ -1,6 +1,6 @@
 /* ==========================================================================
    MOHAB AGENCY — JAVASCRIPT LOGIC & KICK LIVE API SYNCHRONIZATION
-   script.js — Full Sync for Popup and Main Stream Players
+   script.js — Full Production Edition
    ========================================================================== */
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -74,7 +74,7 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // High-End Minimal Audio Feedback
+    // High-End Minimal Audio Feedback (صوت راقي ونظيف)
     let audioCtx = null;
     function playSubtleClick() {
         const activeSfxBtn = document.querySelector("[data-sfx].active");
@@ -107,7 +107,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     // -------------------------------------------------------------------------
-    // تحديث حالة البث المباشر (الشاشة الصغيرة فوق والكارت الكبير تحت)
+    // جلب حالة البث المباشر من كيك (Kick API Integration)
     // -------------------------------------------------------------------------
     async function checkKickLiveStatus() {
         try {
@@ -119,30 +119,22 @@ document.addEventListener("DOMContentLoaded", () => {
             const navDot = document.getElementById("nav-dot");
             const liveStatusBox = document.getElementById("live-status-box");
             
-            // شاشة المعاينة الصغيرة فوق (Popup)
             const popupScreenBox = document.getElementById("popup-screen-box");
-
-            // كارت البث الكبير في الهيرو
             const heroLiveCard = document.getElementById("hero-live-card");
             const cardDotStatus = document.getElementById("card-dot-status");
             const liveCardStatus = document.getElementById("live-card-status");
             const heroScreenBox = document.getElementById("hero-screen-box");
-
-            // بطاقة كيك في قسم المنصات
             const kickCard = document.querySelector(".brand-kick");
 
             if (isLiveNow) {
-                // حالة الأونلاين (LIVE)
                 if (navStatusLabel) { navStatusLabel.textContent = "ONLINE"; navStatusLabel.classList.add("online"); }
                 if (navDot) navDot.classList.add("is-live");
                 if (liveStatusBox) liveStatusBox.classList.add("is-live-popup");
 
-                // تحديث الشاشة الصغيرة (Popup) لتشمل البث
                 if (popupScreenBox) {
                     popupScreenBox.innerHTML = `<iframe src="https://player.kick.com/imohab" height="100%" width="100%" frameborder="0" scrolling="no" allowfullscreen="true"></iframe>`;
                 }
 
-                // تحديث الكارت الكبير
                 if (heroLiveCard) heroLiveCard.classList.add("is-live-card");
                 if (cardDotStatus) cardDotStatus.classList.add("is-live");
                 if (liveCardStatus) liveCardStatus.textContent = "LIVE ON KICK";
@@ -150,14 +142,12 @@ document.addEventListener("DOMContentLoaded", () => {
                     heroScreenBox.innerHTML = `<iframe src="https://player.kick.com/imohab" height="100%" width="100%" frameborder="0" scrolling="no" allowfullscreen="true"></iframe>`;
                 }
 
-                // تحديث بطاقة كيك تحت
                 if (kickCard) {
                     kickCard.classList.add("is-live-platform");
                     const actionTypeSpan = kickCard.querySelector(".action-type");
                     if (actionTypeSpan) actionTypeSpan.textContent = "LIVE ON KICK";
                 }
             } else {
-                // حالة الأوفلاين (OFFLINE)
                 if (navStatusLabel) { navStatusLabel.textContent = "OFFLINE"; navStatusLabel.classList.remove("online"); }
                 if (navDot) navDot.classList.remove("is-live");
                 if (liveStatusBox) liveStatusBox.classList.remove("is-live-popup");
@@ -167,7 +157,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 }
             }
         } catch (error) {
-            console.log("Kick API check skipped or blocked, fallback active.");
+            console.log("Kick API check skipped or blocked.");
         }
     }
 
@@ -191,7 +181,7 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 
-    // Customizer Drawer Toggle
+    // Customizer Drawer Toggle (فتح وإغلاق القائمة بسلاسة من زرار الترس)
     const settingsToggle = document.getElementById("settings-toggle");
     const drawer = document.getElementById("customizer-drawer");
     const closeDrawer = document.getElementById("close-drawer");
@@ -266,7 +256,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const copyBtn = document.querySelector(".copy-btn");
     if (copyBtn) {
         copyBtn.addEventListener("click", () => {
-            navigator.clipboard.writeText("mohab@agency.com");
+            navigator.clipboard.writeText("ixmohab103@gmail.com");
             const originalText = copyBtn.textContent;
             copyBtn.textContent = "COPIED!";
             playSubtleClick();

@@ -1,6 +1,6 @@
 /* ==========================================================================
    MOHAB AGENCY — 3D PERSPECTIVE & CYBERPUNK ARCHITECTURE
-   mohab-style.css — Live Glow Edition
+   mohab-style.css — Official Kick Brand Green Edition
    ========================================================================== */
 
 :root {
@@ -12,7 +12,7 @@
     --border-line: rgba(255, 255, 255, 0.1);
     --accent: #FF0000;
     --accent-glow: rgba(255, 0, 0, 0.35);
-    --stream-frame: #10B981;
+    --stream-frame: #53FC18; /* اللون الأخضر الرسمي لهوية كيك */
     
     --font-sans: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
     --ease-out-expo: cubic-bezier(0.19, 1, 0.22, 1);
@@ -56,8 +56,8 @@
     --text-main: #ECFDF5;
     --text-muted: #34D399;
     --border-line: rgba(52, 211, 153, 0.25);
-    --accent: #10B981;
-    --accent-glow: rgba(16, 185, 129, 0.45);
+    --accent: #53FC18;
+    --accent-glow: rgba(83, 252, 24, 0.45);
 }
 
 [data-theme="sunset"] {
@@ -204,7 +204,7 @@ html, body {
     width: 6px; height: 6px; background-color: #FF4444; border-radius: 50%; box-shadow: 0 0 5px #FF4444;
 }
 .avatar-live-dot.is-live {
-    background-color: #53FC18; box-shadow: 0 0 8px #53FC18;
+    background-color: var(--stream-frame); box-shadow: 0 0 10px var(--stream-frame);
     animation: pulse-dot 1.5s infinite ease-in-out;
 }
 @keyframes pulse-dot {
@@ -216,7 +216,7 @@ html, body {
     font-size: 0.55rem; font-family: monospace; color: #FF4444;
     letter-spacing: 0.15em; font-weight: 800; text-transform: uppercase;
 }
-.brand-status-sub.online { color: #53FC18; }
+.brand-status-sub.online { color: var(--stream-frame); text-shadow: 0 0 8px rgba(83, 252, 24, 0.5); }
 
 .live-preview-popup {
     position: absolute;
@@ -230,7 +230,7 @@ html, body {
 }
 .live-status-badge-box.is-live-popup .live-preview-popup {
     border-color: var(--stream-frame);
-    box-shadow: 0 25px 50px rgba(0,0,0,0.9), 0 0 25px rgba(16, 185, 129, 0.35);
+    box-shadow: 0 25px 50px rgba(0,0,0,0.9), 0 0 25px rgba(83, 252, 24, 0.35);
 }
 .live-status-badge-box:hover .live-preview-popup {
     opacity: 1; visibility: visible; transform: translateY(0) scale(1); pointer-events: auto;
@@ -252,7 +252,7 @@ html, body {
 .volume-slider-line::after { content: ''; position: absolute; top: 0; left: 0; width: 70%; height: 100%; background: var(--stream-frame); border-radius: 2px; box-shadow: 0 0 8px var(--stream-frame); }
 
 .live-framed { border: 1px solid var(--border-line) !important; }
-.live-framed.is-live-card { border: 1px solid var(--stream-frame) !important; box-shadow: 0 0 35px rgba(16, 185, 129, 0.25); }
+.live-framed.is-live-card { border: 1px solid var(--stream-frame) !important; box-shadow: 0 0 35px rgba(83, 252, 24, 0.3); }
 .player-screen { width: 100%; height: 320px; background: #000; position: relative; }
 
 .settings-trigger-btn {
@@ -356,9 +356,9 @@ html, body {
     background: rgba(0,0,0,0.5); padding: 12px 20px; display: flex; align-items: center; gap: 10px;
     font-size: 0.75rem; font-weight: 800; color: #FF0000; font-family: monospace; letter-spacing: 0.15em; z-index: 2; position: relative;
 }
-.live-badge-bar.is-live { color: #53FC18; }
+.live-badge-bar.is-live { color: var(--stream-frame); text-shadow: 0 0 8px rgba(83, 252, 24, 0.4); }
 .dot-status { width: 8px; height: 8px; background: #FF0000; border-radius: 50%; box-shadow: 0 0 10px #FF0000; }
-.live-badge-bar.is-live .dot-status { background: #53FC18; box-shadow: 0 0 12px #53FC18; }
+.live-badge-bar.is-live .dot-status { background: var(--stream-frame); box-shadow: 0 0 12px var(--stream-frame); }
 
 /* Channels Bento Grid Links */
 .channels-bento-section { display: flex; flex-direction: column; }
@@ -385,16 +385,16 @@ html, body {
 .bento-link-card h3 { font-size: 1.3rem; font-weight: 900; letter-spacing: 0.05em; transition: color 0.3s; }
 .card-arrow { font-size: 1.4rem; color: var(--accent); position: relative; z-index: 2; transition: transform 0.3s, color 0.3s; }
 
-/* توهج وبطاقة كيك عند البث المباشر (Live Platform Glow) */
+/* تنسيق توهج بطاقة كيك بالأخضر الرسمي لهوية كيك عند البث المباشر */
 .bento-link-card.brand-kick.is-live-platform {
-    border-color: #10B981 !important;
-    box-shadow: 0 20px 40px rgba(0,0,0,0.5), 0 0 35px rgba(16, 185, 129, 0.45);
+    border-color: var(--stream-frame) !important;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.5), 0 0 35px rgba(83, 252, 24, 0.4);
 }
 .bento-link-card.brand-kick.is-live-platform .platform-icon,
 .bento-link-card.brand-kick.is-live-platform h3,
 .bento-link-card.brand-kick.is-live-platform .card-arrow {
-    color: #10B981;
-    text-shadow: 0 0 12px rgba(16, 185, 129, 0.6);
+    color: var(--stream-frame);
+    text-shadow: 0 0 12px rgba(83, 252, 24, 0.6);
 }
 
 /* توهج ألوان الهوية لبقية المنصات عند المرور */
